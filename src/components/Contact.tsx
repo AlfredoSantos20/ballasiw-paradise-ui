@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { type FormEvent } from "react";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
 
@@ -28,7 +29,7 @@ const contactDetails = [
 ];
 
 export const Contact = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     const name = new FormData(form).get("name");

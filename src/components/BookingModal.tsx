@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { CalendarDays, Phone, UserRound, Users, X } from "lucide-react";
@@ -53,7 +53,7 @@ export const BookingModal = ({ open, onOpenChange, initialCottage }: BookingModa
     setForm((current) => ({ ...current, [field]: value }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     toast.success("Booking request sent", {
       description: `We’ll contact ${form.name || "you"} shortly about the ${form.cottageType} booking.`,
