@@ -15,12 +15,12 @@ const navItems = [
 type NavbarProps = {
   theme: ThemeMode;
   onToggleTheme: () => void;
-  onBookNow: () => void;
 };
 
-export const Navbar = ({ theme, onToggleTheme, onBookNow }: NavbarProps) => {
+export const Navbar = ({ theme, onToggleTheme }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const isHeroSection = !isScrolled;
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 40);
@@ -45,18 +45,29 @@ export const Navbar = ({ theme, onToggleTheme, onBookNow }: NavbarProps) => {
         ].join(" ")}
       >
         <a href="#home" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sunrise text-accent-foreground shadow-soft">
-            <span className="font-display text-lg font-semibold">B</span>
-          </div>
+          <img
+            src="/logo.png"
+            alt="Ballasiw Island Resort logo"
+            className="h-11 w-11 rounded-full object-cover"
+            width={44}
+            height={44}
+            loading="lazy"
+          />
           <div className="hidden sm:block">
-            <p className="font-display text-base font-semibold text-foreground">Ballasiw Island Resort</p>
-            <p className="text-xs text-foreground/65">Beachfront escape</p>
+            <p className={["font-display text-base font-semibold", isHeroSection ? "text-white" : "text-foreground"].join(" ")}>
+              Ballasiw Island Resort
+            </p>
+            <p className={["text-xs", isHeroSection ? "text-white/80" : "text-foreground/65"].join(" ")}>Experience Comfort at Its Finest Resort</p>
           </div>
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
-            <a key={item.href} href={item.href} className="nav-link">
+            <a
+              key={item.href}
+              href={item.href}
+              className={["text-sm font-medium transition-colors duration-300", isHeroSection ? "text-white hover:text-white/80" : "nav-link"].join(" ")}
+            >
               {item.label}
             </a>
           ))}
@@ -70,9 +81,6 @@ export const Navbar = ({ theme, onToggleTheme, onBookNow }: NavbarProps) => {
             aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
             {theme === "dark" ? <Sun /> : <Moon />}
-          </Button>
-          <Button variant="hero" onClick={onBookNow}>
-            Book Now
           </Button>
         </div>
 
@@ -117,16 +125,6 @@ export const Navbar = ({ theme, onToggleTheme, onBookNow }: NavbarProps) => {
                     {item.label}
                   </a>
                 ))}
-                <Button
-                  variant="hero"
-                  className="mt-2 w-full"
-                  onClick={() => {
-                    setIsOpen(false);
-                    onBookNow();
-                  }}
-                >
-                  Book Now
-                </Button>
               </nav>
             </div>
           </motion.div>

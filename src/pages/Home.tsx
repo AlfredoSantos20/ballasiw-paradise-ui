@@ -1,50 +1,41 @@
 import { motion } from "framer-motion";
-import { ShieldCheck, Sparkles, Umbrella } from "lucide-react";
-import { useState } from "react";
+import { PhilippinePeso, Users, Waves } from "lucide-react";
 
-import { BookingModal } from "@/components/BookingModal";
 import { Contact } from "@/components/Contact";
+import { ReusableButtons } from "@/components/customs/reusable_buttons";
 import { Gallery } from "@/components/Gallery";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
 import { Pricing } from "@/components/Pricing";
-import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/useTheme";
 
 const aboutFeatures = [
-  {
-    title: "Beachfront",
-    description: "Steps away from calm waters, bright sand, and wide-open island views.",
-    icon: Umbrella,
-  },
-  {
-    title: "Family-friendly",
-    description: "Relaxed spaces made for barkada trips, reunions, and easy group hangouts.",
-    icon: Sparkles,
-  },
-  {
-    title: "Affordable",
-    description: "Simple, accessible cottage rates so more guests can enjoy the island day.",
-    icon: ShieldCheck,
-  },
+    {
+      title: "Riverside",
+      description: "Steps away from calm waters, lush nature, and wide-open views.",
+      icon: Waves,
+    },
+    {
+      title: "Family-friendly",
+      description: "Relaxed spaces made for barkada trips, reunions, and easy group hangouts.",
+      icon: Users,
+    },
+    {
+      title: "Affordable",
+      description: "Simple, accessible cottage rates so more guests can enjoy the island day.",
+      icon: PhilippinePeso,
+    },
 ];
 
 const Home = () => {
   const { theme, toggleTheme } = useTheme();
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [selectedCottage, setSelectedCottage] = useState<string | undefined>(undefined);
-
-  const openBooking = (cottageName?: string) => {
-    setSelectedCottage(cottageName);
-    setIsBookingOpen(true);
-  };
 
   return (
     <div className="theme-transition min-h-screen">
-      <Navbar theme={theme} onToggleTheme={toggleTheme} onBookNow={() => openBooking()} />
+      <Navbar theme={theme} onToggleTheme={toggleTheme} />
       <main>
-        <Hero onBookNow={() => openBooking()} />
-        <Pricing onBookNow={openBooking} />
+        <Hero />
+        <Pricing />
 
         <section id="about" className="theme-transition">
           <div className="section-shell">
@@ -61,9 +52,7 @@ const Home = () => {
                 <p className="text-base leading-7 text-muted-foreground">
                   Ballasiw Island Resort offers a warm beachfront setting with open-air cottages, clear coastal views, and a relaxed atmosphere for families and friends who want an easy day in paradise.
                 </p>
-                <Button variant="hero" size="lg" className="mt-3 w-fit" onClick={() => openBooking()}>
-                  Plan Your Visit
-                </Button>
+                <ReusableButtons label="Plan Your Visit" href="#contact" size="lg" className="mt-3 w-fit" />
               </motion.div>
 
               <motion.div
@@ -121,12 +110,6 @@ const Home = () => {
           <p>© 2026 Ballasiw Island Resort. All rights reserved.</p>
         </div>
       </footer>
-
-      <BookingModal
-        open={isBookingOpen}
-        onOpenChange={setIsBookingOpen}
-        initialCottage={selectedCottage}
-      />
     </div>
   );
 };

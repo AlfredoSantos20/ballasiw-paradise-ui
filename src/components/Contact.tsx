@@ -3,7 +3,7 @@ import { type FormEvent } from "react";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
+import { ReusableButtons } from "@/components/customs/reusable_buttons";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -23,8 +23,8 @@ const contactDetails = [
   {
     icon: MapPin,
     label: "Location",
-    value: "Ballasiw Island, Northern Samar, Philippines",
-    href: "https://maps.google.com/?q=Ballasiw+Island+Resort",
+    value: "purok 1 sampaloc nueva ecija",
+    href: "https://maps.google.com/?q=purok+1+sampaloc+nueva+ecija",
   },
 ];
 
@@ -82,7 +82,7 @@ export const Contact = () => {
             <div className="overflow-hidden rounded-[28px] border border-border/70 shadow-soft">
               <iframe
                 title="Ballasiw Island Resort map"
-                src="https://www.google.com/maps?q=Northern%20Samar%20Philippines&z=8&output=embed"
+                src="https://www.google.com/maps?q=purok%201%20sampaloc%20nueva%20ecija&z=16&output=embed"
                 className="h-72 w-full border-0"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -106,22 +106,13 @@ export const Contact = () => {
               </div>
               <div className="hidden items-center gap-2 sm:flex">
                 <a
-                  href="https://facebook.com"
+                  href="https://www.facebook.com/profile.php?id=100090097461372"
                   target="_blank"
                   rel="noreferrer"
                   className="flex h-11 w-11 items-center justify-center rounded-full bg-feature text-primary transition-transform duration-300 hover:-translate-y-1"
                   aria-label="Facebook"
                 >
                   <Facebook className="h-4 w-4" />
-                </a>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex h-11 w-11 items-center justify-center rounded-full bg-feature text-primary transition-transform duration-300 hover:-translate-y-1"
-                  aria-label="Instagram"
-                >
-                  <Instagram className="h-4 w-4" />
                 </a>
               </div>
             </div>
@@ -144,9 +135,7 @@ export const Contact = () => {
                   placeholder="Tell us about your visit plans"
                 />
               </label>
-              <Button type="submit" variant="hero" size="lg" className="w-full sm:w-fit">
-                Send Message
-              </Button>
+              <ReusableButtons label="Send Message" type="submit" size="lg" className="w-full sm:w-fit" />
             </form>
           </motion.div>
         </div>

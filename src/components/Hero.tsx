@@ -1,24 +1,93 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, MapPin, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import heroImage from "@/assets/images/ballasiw-hero.jpg";
-import { Button } from "@/components/ui/button";
+import { ReusableButtons } from "@/components/customs/reusable_buttons";
 
-type HeroProps = {
-  onBookNow: () => void;
+type TypePhase = "typingTitle" | "typingSubtitle" | "erasingSubtitle" | "erasingTitle";
+
+const useConnectedTypewriter = (title: string, subtitle: string) => {
+  const [titleCount, setTitleCount] = useState(0);
+  const [subtitleCount, setSubtitleCount] = useState(0);
+  const [phase, setPhase] = useState<TypePhase>("typingTitle");
+
+  useEffect(() => {
+    const typeSpeed = 70;
+    const eraseSpeed = 45;
+    const fullPause = 1100;
+    const transitionPause = 300;
+
+    const delay =
+      (phase === "typingTitle" && titleCount === title.length) ||
+      (phase === "typingSubtitle" && subtitleCount === subtitle.length)
+        ? fullPause
+        : (phase === "erasingSubtitle" && subtitleCount === 0) || (phase === "erasingTitle" && titleCount === 0)
+          ? transitionPause
+          : phase === "erasingSubtitle" || phase === "erasingTitle"
+            ? eraseSpeed
+            : typeSpeed;
+
+    const timer = window.setTimeout(() => {
+      if (phase === "typingTitle") {
+        if (titleCount < title.length) {
+          setTitleCount((current) => current + 1);
+          return;
+        }
+        setPhase("typingSubtitle");
+        return;
+      }
+
+      if (phase === "typingSubtitle") {
+        if (subtitleCount < subtitle.length) {
+          setSubtitleCount((current) => current + 1);
+          return;
+        }
+        setPhase("erasingSubtitle");
+        return;
+      }
+
+      if (phase === "erasingSubtitle") {
+        if (subtitleCount > 0) {
+          setSubtitleCount((current) => current - 1);
+          return;
+        }
+        setPhase("erasingTitle");
+        return;
+      }
+
+      if (titleCount > 0) {
+        setTitleCount((current) => current - 1);
+        return;
+      }
+      setPhase("typingTitle");
+    }, delay);
+
+    return () => window.clearTimeout(timer);
+  }, [phase, subtitle, subtitleCount, title, titleCount]);
+
+  return {
+    titleText: title.slice(0, titleCount),
+    subtitleText: subtitle.slice(0, subtitleCount),
+    activeLine: phase === "typingSubtitle" || phase === "erasingSubtitle" ? "subtitle" : "title",
+  };
 };
 
-export const Hero = ({ onBookNow }: HeroProps) => {
+export const Hero = () => {
   const prefersReducedMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const imageY = useTransform(scrollY, [0, 400], [0, prefersReducedMotion ? 0 : 60]);
   const contentY = useTransform(scrollY, [0, 400], [0, prefersReducedMotion ? 0 : -35]);
+  const { titleText, subtitleText, activeLine } = useConnectedTypewriter(
+    "Ballasiw Island Resort",
+    "Relax. Unwind. Experience Paradise.",
+  );
 
   return (
     <section id="home" className="relative flex min-h-screen items-end overflow-hidden pt-24">
       <motion.img
         src={heroImage}
-        alt="Ballasiw Island Resort beachfront at golden hour"
+        alt="Ballasiw Island Resort"
         className="absolute inset-0 h-full w-full object-cover"
         style={{ y: imageY, scale: prefersReducedMotion ? 1 : 1.08 }}
         initial={{ scale: 1.16, opacity: 0 }}
@@ -27,8 +96,8 @@ export const Hero = ({ onBookNow }: HeroProps) => {
         width={1920}
         height={1080}
       />
-      <div className="absolute inset-0 bg-hero" />
-      <div className="absolute inset-0 bg-gradient-to-t from-background/35 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-hero dark:bg-[linear-gradient(115deg,rgba(3,35,68,0.62),rgba(3,35,68,0.38)_45%,rgba(3,35,68,0.12)_80%)]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background/35 via-transparent to-transparent dark:from-transparent" />
 
       <motion.div
         className="section-shell relative z-10 pb-16 md:pb-24"
@@ -40,7 +109,7 @@ export const Hero = ({ onBookNow }: HeroProps) => {
         <div className="max-w-3xl space-y-8 text-primary-foreground">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-2 text-sm backdrop-blur-md">
             <Sparkles className="h-4 w-4" />
-            Tropical beachfront getaway
+            Your Perfect Resort Escape
           </div>
 
           <div className="space-y-5">
@@ -50,7 +119,10 @@ export const Hero = ({ onBookNow }: HeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.2 }}
             >
-              Ballasiw Island Resort
+              {titleText}
+              {activeLine === "title" ? (
+                <span className="ml-1 inline-block h-[1em] w-[2px] animate-pulse bg-primary-foreground align-middle" />
+              ) : null}
             </motion.h1>
             <motion.p
               className="max-w-2xl text-lg text-primary-foreground/88 sm:text-xl"
@@ -58,7 +130,10 @@ export const Hero = ({ onBookNow }: HeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.32 }}
             >
-              Relax. Unwind. Experience Paradise.
+              {subtitleText}
+              {activeLine === "subtitle" ? (
+                <span className="ml-1 inline-block h-[1em] w-[2px] animate-pulse bg-primary-foreground align-middle" />
+              ) : null}
             </motion.p>
             <motion.p
               className="max-w-2xl text-sm leading-7 text-primary-foreground/72 sm:text-base"
@@ -66,7 +141,7 @@ export const Hero = ({ onBookNow }: HeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.42 }}
             >
-              Oceanfront cottages, warm island sunsets, and effortless moments designed for family escapes, day trips, and laid-back celebrations.
+              Riverfront cottages immersed in nature, golden sunsets, and peaceful moments for family getaways, day trips, and easygoing celebrations.
             </motion.p>
           </div>
 
@@ -76,12 +151,8 @@ export const Hero = ({ onBookNow }: HeroProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.52 }}
           >
-            <Button variant="hero" size="xl" onClick={onBookNow}>
-              Book Now
-            </Button>
-            <Button variant="glass" size="xl" asChild>
-              <a href="#cottages">View Cottages</a>
-            </Button>
+            <ReusableButtons label="View Cottages" href="#cottages" size="xl" />
+            <ReusableButtons label="Contact Us" href="#contact" variant="glass" gradient={false} size="xl" />
           </motion.div>
 
           <motion.div
@@ -90,25 +161,11 @@ export const Hero = ({ onBookNow }: HeroProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.62 }}
           >
-            <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4" />
-              Beachfront location
-            </div>
-            <div>Day-use cottages from ₱500</div>
-            <div>Family-friendly island vibe</div>
+        
           </motion.div>
         </div>
 
-        <motion.a
-          href="#cottages"
-          className="mt-12 inline-flex items-center gap-2 text-sm text-primary-foreground/78 transition-colors hover:text-primary-foreground"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >
-          Explore the resort
-          <ChevronDown className="h-4 w-4 animate-float" />
-        </motion.a>
+       
       </motion.div>
     </section>
   );
