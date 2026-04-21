@@ -40,8 +40,8 @@ export const Navbar = ({ theme, onToggleTheme, onBookNow }: NavbarProps) => {
         className={[
           "container flex items-center justify-between rounded-full border px-4 py-3 transition-all duration-300 md:px-6",
           isScrolled
-            ? "glass-panel border-border/60 bg-background/82 shadow-soft"
-            : "border-transparent bg-transparent",
+            ? "border-border/60 bg-background/82 shadow-soft backdrop-blur-lg"
+            : "border-transparent bg-transparent backdrop-blur-lg",
         ].join(" ")}
       >
         <a href="#home" className="flex items-center gap-3">

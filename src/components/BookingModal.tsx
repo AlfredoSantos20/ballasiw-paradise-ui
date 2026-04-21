@@ -78,7 +78,7 @@ export const BookingModal = ({ open, onOpenChange, initialCottage }: BookingModa
             </DialogPrimitive.Overlay>
             <DialogPrimitive.Content asChild forceMount>
               <motion.div
-                className="fixed left-1/2 top-1/2 z-50 w-[calc(100%-1.5rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-[32px] border border-border/70 bg-card/95 p-6 shadow-elevated backdrop-blur-xl sm:p-8"
+                className="fixed left-1/2 top-1/2 z-50 w-[calc(100%-1.5rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-[32px] border border-border/70 bg-card/95 p-6 shadow-elevated backdrop-blur-xl sm:p-8 flex flex-col items-center"
                 initial={{ opacity: 0, y: 24, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 24, scale: 0.96 }}
