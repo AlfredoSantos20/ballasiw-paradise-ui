@@ -23,7 +23,7 @@
     --muted: 36 42% 92%;
     --muted-foreground: 208 24% 38%;
 
-    --accent: 28 93% 56%;
+    --accent: 34 95% 68%;
     --accent-foreground: 210 52% 16%;
 
     --destructive: 0 78% 58%;
@@ -75,7 +75,7 @@
     --muted: 208 28% 19%;
     --muted-foreground: 201 19% 74%;
 
-    --accent: 28 95% 60%;
+    --accent: 34 95% 72%;
     --accent-foreground: 210 55% 12%;
 
     --destructive: 0 72% 56%;
@@ -136,6 +136,26 @@
 }
 
 @layer components {
+  @keyframes btnGlowPulse {
+    0%,
+    100% {
+      box-shadow:
+        0 0 0 1px rgba(255, 227, 189, 0.35),
+        0 0 14px rgba(246, 168, 79, 0.35),
+        0 10px 24px rgba(237, 150, 64, 0.3);
+    }
+    50% {
+      box-shadow:
+        0 0 0 1px rgba(255, 227, 189, 0.45),
+        0 0 32px rgba(255, 190, 106, 0.62),
+        0 16px 36px rgba(237, 150, 64, 0.48);
+    }
+  }
+
+  .btn-glow {
+    animation: btnGlowPulse 18s ease-in-out infinite;
+  }
+
   .section-shell {
     @apply container relative py-20 md:py-24;
   }

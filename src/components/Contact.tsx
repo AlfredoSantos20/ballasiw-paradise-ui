@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { type FormEvent } from "react";
-import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
+import { Facebook, Instagram, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
 
 import { ReusableButtons } from "@/components/customs/reusable_buttons";
@@ -15,10 +15,10 @@ const contactDetails = [
     href: "tel:+639123456789",
   },
   {
-    icon: Mail,
-    label: "Email",
-    value: "hello@ballasiwresort.com",
-    href: "mailto:hello@ballasiwresort.com",
+    icon: Facebook,
+    label: "Facebook",
+    value: "Ballasiw Island Resort",
+    href: "https://www.facebook.com/profile.php?id=100090097461372",
   },
   {
     icon: MapPin,

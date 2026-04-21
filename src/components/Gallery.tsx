@@ -1,38 +1,41 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Expand, X } from "lucide-react";
-
-import beachImage from "@/assets/images/gallery-beach.jpg";
-import cottageImage from "@/assets/images/gallery-cottage.jpg";
-import sunsetImage from "@/assets/images/gallery-sunset.jpg";
-import heroImage from "@/assets/images/ballasiw-hero.jpg";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ReusableButtons } from "@/components/customs/reusable_buttons";
 
 const galleryItems = [
   {
     title: "Golden beachfront",
     description: "Quiet shoreline and clear water for slow island mornings.",
-    image: heroImage,
+    image: "/gallery/1.jpg",
     width: 1920,
     height: 1080,
   },
   {
     title: "Cottage moments",
     description: "Cozy shaded spaces built for small group getaways.",
-    image: cottageImage,
+    image: "/gallery/2.jpg",
     width: 960,
     height: 960,
   },
   {
     title: "Relaxed lagoon edge",
     description: "Swim, lounge, and enjoy easy beachside afternoons.",
-    image: beachImage,
+    image: "/gallery/3.jpg",
     width: 960,
     height: 960,
   },
   {
     title: "Sunset glow",
     description: "End the day with warm skies and calm island views.",
-    image: sunsetImage,
+    image: "/gallery/4.jpg",
+    width: 960,
+    height: 960,
+  },
+  {
+    title: "Resort highlights",
+    description: "More moments around Ballasiw Island Resort.",
+    image: "/gallery/5.jpg",
     width: 960,
     height: 960,
   },
@@ -40,6 +43,20 @@ const galleryItems = [
 
 export const Gallery = () => {
   const [activeImage, setActiveImage] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const visibleItems = showAll ? galleryItems : galleryItems.slice(0, 4);
+  const showPrevImage = () => {
+    setActiveImage((current) => {
+      if (current === null) return current;
+      return current === 0 ? galleryItems.length - 1 : current - 1;
+    });
+  };
+  const showNextImage = () => {
+    setActiveImage((current) => {
+      if (current === null) return current;
+      return current === galleryItems.length - 1 ? 0 : current + 1;
+    });
+  };
 
   return (
     <section id="gallery" className="theme-transition">
@@ -59,7 +76,7 @@ export const Gallery = () => {
         </motion.div>
 
         <div className="mt-12 grid gap-5 md:grid-cols-2">
-          {galleryItems.map((item, index) => (
+          {visibleItems.map((item, index) => (
             <motion.button
               key={item.title}
               type="button"
@@ -81,20 +98,18 @@ export const Gallery = () => {
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary/82 via-primary/24 to-transparent p-6 text-primary-foreground">
-                <div className="flex items-end justify-between gap-4">
-                  <div>
-                    <h3 className="font-display text-xl font-semibold">{item.title}</h3>
-                    <p className="mt-2 max-w-sm text-sm text-primary-foreground/78">{item.description}</p>
-                  </div>
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-primary-foreground/20 bg-primary-foreground/10 backdrop-blur-sm">
-                    <Expand className="h-4 w-4" />
-                  </span>
-                </div>
-              </div>
             </motion.button>
           ))}
         </div>
+        {galleryItems.length > 4 ? (
+          <div className="mt-8 flex justify-center">
+            <ReusableButtons
+              label={showAll ? "View Less" : "View More"}
+              onClick={() => setShowAll((current) => !current)}
+              size="lg"
+            />
+          </div>
+        ) : null}
       </div>
 
       <AnimatePresence>
@@ -121,6 +136,22 @@ export const Gallery = () => {
                 aria-label="Close image preview"
               >
                 <X className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                className="absolute left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-primary-foreground/20 bg-primary/70 text-primary-foreground backdrop-blur-sm transition-transform duration-300 hover:scale-105"
+                onClick={showPrevImage}
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                className="absolute right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-primary-foreground/20 bg-primary/70 text-primary-foreground backdrop-blur-sm transition-transform duration-300 hover:scale-105"
+                onClick={showNextImage}
+                aria-label="Next image"
+              >
+                <ChevronRight className="h-5 w-5" />
               </button>
               <img
                 src={galleryItems[activeImage].image}

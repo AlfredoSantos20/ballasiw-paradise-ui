@@ -10,7 +10,7 @@ type ReusableButtonsProps = Omit<ButtonProps, "children"> & {
 };
 
 const gradientClasses =
-  "border border-[#f6e9d1]/35 bg-[linear-gradient(135deg,#f6b05d_0%,#f2a24a_26%,#1d8fca_64%,#0b2453_100%)] bg-[length:220%_220%] text-[#fff8ea] shadow-[0_0_0_1px_rgba(246,233,209,0.28),0_0_20px_rgba(29,143,202,0.45),0_14px_30px_rgba(11,36,83,0.5)] hover:translate-y-[-2px] hover:bg-[position:100%_0%] hover:brightness-110 hover:shadow-[0_0_0_1px_rgba(246,233,209,0.35),0_0_28px_rgba(246,176,93,0.55),0_18px_36px_rgba(11,36,83,0.58)]";
+  "border border-[#ffe3bd]/45 bg-[linear-gradient(135deg,#f97316,#fb923c,#fdba74)] bg-[length:220%_220%] text-[#fff8ea] shadow-[0_0_0_1px_rgba(255,227,189,0.35),0_0_20px_rgba(246,168,79,0.55),0_14px_30px_rgba(237,150,64,0.5)] hover:translate-y-[-2px] hover:bg-[linear-gradient(135deg,#f97316,#fb923c,#fdba74)] hover:bg-[position:100%_0%] hover:brightness-110 hover:text-[#fff8ea] hover:shadow-[0_0_0_1px_rgba(255,227,189,0.45),0_0_30px_rgba(255,190,106,0.7),0_18px_38px_rgba(237,150,64,0.6)]";
 
 export const ReusableButtons = ({
   label,
@@ -21,17 +21,18 @@ export const ReusableButtons = ({
   ...props
 }: ReusableButtonsProps) => {
   const buttonClassName = cn(gradient ? gradientClasses : "", className);
+  const resolvedVariant = gradient ? "ghost" : variant;
 
   if (href) {
     return (
-      <Button asChild variant={variant} className={buttonClassName} {...props}>
+      <Button asChild variant={resolvedVariant} className={buttonClassName} {...props}>
         <a href={href}>{label}</a>
       </Button>
     );
   }
 
   return (
-    <Button variant={variant} className={buttonClassName} {...props}>
+    <Button variant={resolvedVariant} className={buttonClassName} {...props}>
       {label}
     </Button>
   );

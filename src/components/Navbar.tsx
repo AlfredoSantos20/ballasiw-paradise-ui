@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { motion } from "framer-motion";
+import { Moon, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import type { ThemeMode } from "@/hooks/useTheme";
@@ -19,7 +19,6 @@ type NavbarProps = {
 
 export const Navbar = ({ theme, onToggleTheme }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const isHeroSection = !isScrolled;
 
   useEffect(() => {
@@ -30,20 +29,21 @@ export const Navbar = ({ theme, onToggleTheme }: NavbarProps) => {
   }, []);
 
   return (
-    <motion.header
-      className="fixed inset-x-0 top-0 z-50 px-4 py-4"
-      initial={{ y: -48, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    >
-      <div
-        className={[
-          "container flex items-center justify-between rounded-full border px-4 py-3 transition-all duration-300 md:px-6",
-          isScrolled
-            ? "border-border/60 bg-background/82 shadow-soft backdrop-blur-lg"
-            : "border-transparent bg-transparent backdrop-blur-lg",
-        ].join(" ")}
+    <>
+      <motion.header
+        className="fixed inset-x-0 top-0 z-50 px-4 py-4"
+        initial={{ y: -48, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
       >
+        <div
+          className={[
+            "mx-auto flex w-full max-w-6xl items-center justify-between rounded-full border px-4 py-2 transition-all duration-300 md:px-5",
+            isScrolled
+              ? "border-border/60 bg-background/82 shadow-soft backdrop-blur-lg"
+              : "border-transparent bg-transparent backdrop-blur-lg",
+          ].join(" ")}
+        >
         <a href="#home" className="flex items-center gap-3">
           <img
             src="/logo.png"
@@ -61,7 +61,7 @@ export const Navbar = ({ theme, onToggleTheme }: NavbarProps) => {
           </div>
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 md:flex">
           {navItems.map((item) => (
             <a
               key={item.href}
@@ -93,43 +93,21 @@ export const Navbar = ({ theme, onToggleTheme }: NavbarProps) => {
           >
             {theme === "dark" ? <Sun /> : <Moon />}
           </Button>
-          <Button
-            variant="glass"
-            size="icon"
-            onClick={() => setIsOpen((value) => !value)}
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-          >
-            {isOpen ? <X /> : <Menu />}
-          </Button>
         </div>
-      </div>
+        </div>
+      </motion.header>
 
-      <AnimatePresence>
-        {isOpen ? (
-          <motion.div
-            className="container mt-3 md:hidden"
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-          >
-            <div className="glass-panel rounded-3xl px-5 py-5">
-              <nav className="flex flex-col gap-4">
-                {navItems.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className="nav-link text-base"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                ))}
-              </nav>
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-    </motion.header>
+      <nav className={["fixed inset-x-4 bottom-4 z-50 md:hidden", isScrolled ? "block" : "hidden"].join(" ")}>
+        <div className="glass-panel rounded-full px-4 py-3">
+          <div className="flex items-center justify-between gap-2">
+            {navItems.map((item) => (
+              <a key={item.href} href={item.href} className="text-sm font-medium text-foreground/85 transition-colors hover:text-primary">
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
+    </>
   );
 };
