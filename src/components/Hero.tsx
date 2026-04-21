@@ -106,37 +106,43 @@ export const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.15, ease: "easeOut" }}
       >
-        <div className="max-w-3xl space-y-8 text-primary-foreground">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-2 text-sm backdrop-blur-md">
+        <div className="max-w-3xl space-y-8 text-white">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-md">
             <Sparkles className="h-4 w-4" />
             Your Perfect Resort Escape
           </div>
 
           <div className="space-y-5">
             <motion.h1
-              className="font-display text-5xl font-semibold leading-tight sm:text-6xl lg:text-7xl"
+              className="relative font-display text-5xl font-semibold leading-tight text-white sm:text-6xl lg:text-7xl"
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.2 }}
             >
-              {titleText}
-              {activeLine === "title" ? (
-                <span className="ml-1 inline-block h-[1em] w-[2px] animate-pulse bg-primary-foreground align-middle" />
-              ) : null}
+              <span className="invisible">Ballasiw Island Resort</span>
+              <span className="absolute inset-0">
+                {titleText}
+                {activeLine === "title" ? (
+                  <span className="ml-1 inline-block h-[1em] w-[2px] animate-pulse bg-white align-middle" />
+                ) : null}
+              </span>
             </motion.h1>
             <motion.p
-              className="max-w-2xl text-lg text-primary-foreground/88 sm:text-xl"
+              className="relative max-w-2xl text-lg text-white/90 sm:text-xl"
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.32 }}
             >
-              {subtitleText}
-              {activeLine === "subtitle" ? (
-                <span className="ml-1 inline-block h-[1em] w-[2px] animate-pulse bg-primary-foreground align-middle" />
-              ) : null}
+              <span className="invisible">Relax. Unwind. Experience Paradise.</span>
+              <span className="absolute inset-0">
+                {subtitleText}
+                {activeLine === "subtitle" ? (
+                  <span className="ml-1 inline-block h-[1em] w-[2px] animate-pulse bg-white align-middle" />
+                ) : null}
+              </span>
             </motion.p>
             <motion.p
-              className="max-w-2xl text-sm leading-7 text-primary-foreground/72 sm:text-base"
+              className="max-w-2xl text-sm leading-7 text-white/80 sm:text-base"
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.42 }}
