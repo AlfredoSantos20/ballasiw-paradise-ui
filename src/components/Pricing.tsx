@@ -11,7 +11,7 @@ const sectionVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
+      ease: "easeOut" as const,
       staggerChildren: 0.12,
     },
   },
@@ -19,7 +19,7 @@ const sectionVariants = {
 
 const cardVariants = {
   hidden: { opacity: 0, y: 28 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
 const PricingCard = ({ cottage, onBookNow }: { cottage: Cottage; onBookNow: (cottageName?: string) => void }) => (
